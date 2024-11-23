@@ -1,0 +1,166 @@
+/* 기본 스타일 설정 */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* 자판기 전체 레이아웃 */
+.vending-machine {
+  display: flex;
+  gap: 20px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 왼쪽 섹션: display + buttons */
+.left-section {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.display-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+/* 금액 표시창 스타일 */
+.display {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  background: #f4f4f4;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 상품 버튼 그리드 */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+button.product {
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 1rem;
+  text-align: center;
+  transition: background 0.3s;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button.product:hover {
+  background: #e0f7fa;
+}
+
+button.product:active {
+  background: #b2ebf2;
+}
+
+/* 오른쪽 섹션: 금액 투입구 + 로그 */
+.right-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-log-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background: #f4f4f4;
+  border-radius: 5px;
+}
+
+/* 금액 투입 구역 스타일 */
+.input-section {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.input-section input {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.input-section input:focus {
+  outline: none;
+  border-color: #009688;
+}
+
+.input-section button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  background: #009688;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.input-section button:hover {
+  background: #00796b;
+}
+
+.input-section button:active {
+  background: #004d40;
+}
+
+/* 로그 창 스타일 */
+.log {
+  flex: 1;
+  height: 150px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.log div {
+  margin-bottom: 5px;
+}
+
+/* 스크롤바 스타일 (웹 브라우저 지원 범위에 따라 동작) */
+.log::-webkit-scrollbar {
+  width: 8px;
+}
+
+.log::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.log::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
