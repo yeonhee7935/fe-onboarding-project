@@ -1,7 +1,7 @@
-import { initializeInput } from "./vendingMachine/input.js";
-import { initializeLog } from "./vendingMachine/log.js";
-import { initializeButtons } from "./vendingMachine/buttons.js";
-import { initializeDisplay } from "./vendingMachine/display.js";
+import { initializeInput } from "./vendingMachine/input";
+import { initializeLog } from "./vendingMachine/log";
+import { initializeButtons } from "./vendingMachine/buttons";
+import { initializeDisplay } from "./vendingMachine/display";
 document.addEventListener("DOMContentLoaded", () => {
   const state = {
     balance: 0,

@@ -1,4 +1,4 @@
-import { formatCurrency } from "./utils.js";
+import { formatCurrency } from "./utils";
 
 export function initializeDisplay(state) {
   const display = document.getElementById("display");
