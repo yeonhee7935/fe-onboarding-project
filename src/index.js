@@ -1,25 +1,23 @@
-import { initializeInput } from "./input";
-import { initializeLog } from "./log";
-import { initializeButtons } from "./buttons";
-import { initializeDisplay } from "./display";
+import { VendingMachine } from "./models/VendingMachine";
+import { UIManager } from "./ui/UIManager";
 document.addEventListener("DOMContentLoaded", () => {
-  const state = {
-    balance: 0,
-    log: [],
-    products: [
-      { name: "콜라", price: 1500 },
-      { name: "속이사이다", price: 1500 },
-      { name: "판타지판타", price: 2000 },
-      { name: "오뎅국물", price: 1500 },
-      { name: "부장라떼", price: 2000 },
-      { name: "판타지판타", price: 2000 },
-      { name: "레드불", price: 2000 },
-      { name: "핫세븐", price: 2000 },
-      { name: "커피우유", price: 2000 },
-    ],
-  };
-  initializeDisplay(state);
-  initializeButtons(state);
-  initializeInput(state);
-  initializeLog(state);
+  // 자판기 인스턴스 생성
+  const vendingMachine = new VendingMachine();
+
+  // 제품 추가
+  vendingMachine.addProduct("콜라", 1500);
+  vendingMachine.addProduct("속이사이다", 1500);
+  vendingMachine.addProduct("판타지판타", 2000);
+  vendingMachine.addProduct("오뎅국물", 1500);
+  vendingMachine.addProduct("부장라떼", 2000);
+  vendingMachine.addProduct("판타지판타", 2000);
+  vendingMachine.addProduct("레드불", 2000);
+  vendingMachine.addProduct("핫세븐", 2000);
+  vendingMachine.addProduct("커피우유", 2000);
+
+  // UIManager 인스턴스 생성
+  const uiManager = new UIManager(vendingMachine);
+
+  // UI 초기화
+  uiManager.initializeUI();
 });
