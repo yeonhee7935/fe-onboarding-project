@@ -16,7 +16,9 @@ export function initializeButtons(state) {
         state.balance -= product.price;
         state.updateDisplay(state.balance);
         state.addLog(
-          `구매: ${product.name} (-${product.price.toLocaleString()}원)`,
+          `${
+            product.name
+          }(${product.price.toLocaleString()}원)을 구매했습니다.`,
         );
       } else {
         state.updateDisplay(product.price); // 잔액 부족시 가격 표시

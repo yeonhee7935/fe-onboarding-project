@@ -7,34 +7,34 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh; /* 스크롤을 방지 */
 }
 
 /* 자판기 전체 레이아웃 */
 .vending-machine {
   display: flex;
-  gap: 20px;
+  align-items: center;
   background: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  gap: 20px;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .vending-machine {
+    flex-direction: column;
+    gap: 15px;
+    padding: 0px;
+  }
 }
 
 /* 왼쪽 섹션: display + buttons */
 .left-section {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  padding: 10px;
 }
-
-.display-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-}
-
 /* 금액 표시창 스타일 */
 .display {
   text-align: center;
@@ -42,10 +42,9 @@ body {
   font-weight: bold;
   background: #f4f4f4;
   padding: 10px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 /* 상품 버튼 그리드 */
@@ -53,7 +52,6 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  width: 100%;
 }
 
 button.product {
@@ -77,21 +75,8 @@ button.product:active {
 
 /* 오른쪽 섹션: 금액 투입구 + 로그 */
 .right-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.input-log-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  border: 1px solid #ccc;
+  height: 100%;
   padding: 10px;
-  background: #f4f4f4;
-  border-radius: 5px;
 }
 
 /* 금액 투입 구역 스타일 */
@@ -99,10 +84,10 @@ button.product:active {
   display: flex;
   gap: 10px;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .input-section input {
-  flex: 1;
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -116,7 +101,7 @@ button.product:active {
 }
 
 .input-section button {
-  padding: 10px 15px;
+  padding: 8px;
   font-size: 1rem;
   background: #009688;
   color: white;
@@ -136,6 +121,7 @@ button.product:active {
 
 /* 로그 창 스타일 */
 .log {
+  width: 100%;
   flex: 1;
   height: 150px;
   overflow-y: auto;
