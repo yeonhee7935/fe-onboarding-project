@@ -1,15 +1,7 @@
-import { Product } from "./Product.js";
-
 export class VendingMachine {
-  constructor() {
+  constructor(products) {
     this.balance = 0; // 금액
-    this.products = []; // 제품 리스트
-  }
-
-  // 제품 추가
-  addProduct(name, price) {
-    const product = new Product(name, price);
-    this.products.push(product);
+    this.products = products; // 제품 리스트
   }
 
   // 금액 투입

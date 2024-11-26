@@ -90,7 +90,6 @@ export class UIManager {
       this.displayManager.updateDisplay(this.vendingMachine.getBalance());
       this.logManager.addLog(e.message);
 
-      // 호출된 에러 처리 함수가 있으면 실행
       if (errorCallback) {
         errorCallback();
       }
