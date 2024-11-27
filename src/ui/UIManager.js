@@ -1,11 +1,11 @@
-import { DisplayManager } from "./DisplayManager";
-import { LogManager } from "./LogManager";
+import { Display } from "./Display";
+import { LogPanel } from "./LogPanel";
 
 export class UIManager {
   constructor(vendingMachine) {
     this.vendingMachine = vendingMachine;
-    this.displayManager = new DisplayManager();
-    this.logManager = new LogManager();
+    this.display = new Display();
+    this.logPanel = new LogPanel();
   }
 
   initializeUI() {
@@ -74,8 +74,8 @@ export class UIManager {
       `${product.name}을 구매했습니다.`,
       () => {
         // 구매가 실패하면, 가격을 보여주고 원래 잔액을 잠시 뒤에 다시 보여줌
-        this.displayManager.updateDisplay(product.price);
-        setTimeout(() => this.displayManager.updateDisplay(balance), 1500);
+        this.display.update(product.price);
+        setTimeout(() => this.display.update(balance), 1500);
       },
     );
   }
@@ -84,11 +84,11 @@ export class UIManager {
   #handleTransaction(transaction, successLogMessage, errorCallback = null) {
     try {
       transaction();
-      this.displayManager.updateDisplay(this.vendingMachine.getBalance());
-      this.logManager.addLog(successLogMessage);
+      this.display.update(this.vendingMachine.getBalance());
+      this.logPanel.addLog(successLogMessage);
     } catch (e) {
-      this.displayManager.updateDisplay(this.vendingMachine.getBalance());
-      this.logManager.addLog(e.message);
+      this.display.update(this.vendingMachine.getBalance());
+      this.logPanel.addLog(e.message);
 
       if (errorCallback) {
         errorCallback();

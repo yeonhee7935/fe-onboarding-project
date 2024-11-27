@@ -1,4 +1,4 @@
-export class LogManager {
+export class LogPanel {
   constructor() {
     this.logContainer = document.getElementById("log");
     this.logs = [];
