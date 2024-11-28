@@ -6,6 +6,7 @@ export class UIManager {
     this.vendingMachine = vendingMachine;
     this.display = new Display();
     this.logPanel = new LogPanel();
+    this.currentTimeoutId = null; // 현재 활성화된 타이머 ID를 저장
   }
 
   initializeUI() {
@@ -73,9 +74,18 @@ export class UIManager {
       () => this.vendingMachine.purchaseProduct(product),
       `${product.name}을 구매했습니다.`,
       () => {
-        // 구매가 실패하면, 가격을 보여주고 원래 잔액을 잠시 뒤에 다시 보여줌
+        // 이전 타이머가 있으면 취소
+        if (this.currentTimeoutId) {
+          clearTimeout(this.currentTimeoutId);
+          this.currentTimeoutId = null;
+        }
+
+        // 구매 실패 시, 가격을 표시하고 1.5초 뒤 잔액을 다시 표시
         this.display.update(product.price);
-        setTimeout(() => this.display.update(balance), 1500);
+        this.currentTimeoutId = setTimeout(() => {
+          this.display.update(this.vendingMachine.getBalance());
+          this.currentTimeoutId = null; // 타이머 완료 후 초기화
+        }, 1500);
       },
     );
   }
