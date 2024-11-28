@@ -30,16 +30,27 @@ export class UIManager {
       const button = this.#createProductButton(product);
       buttonsContainer.appendChild(button);
     });
+
+    buttonsContainer.addEventListener("click", (event) => {
+      const button = event.target.closest(".product");
+      if (button) {
+        const productName = button.dataset.name;
+        const product = products.find((p) => p.name === productName);
+        if (product) {
+          this.#handlePurchase(product);
+        }
+      }
+    });
   }
 
   // 제품 버튼 생성
   #createProductButton(product) {
     const button = document.createElement("button");
     button.className = "product";
+    button.dataset.name = product.name;
     button.innerHTML = `<strong>${
       product.name
     }</strong><br /><small>${product.price.toLocaleString()}원</small>`;
-    button.addEventListener("click", () => this.#handlePurchase(product));
     return button;
   }
 
