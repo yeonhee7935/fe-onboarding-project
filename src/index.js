@@ -1,5 +1,5 @@
 import { VendingMachine } from "./models/VendingMachine";
-import { UIManager } from "./ui/UIManager";
+import { VendingMachineUI } from "./ui/UIManager";
 
 async function loadProducts() {
   const response = await fetch("/products.json");
@@ -11,6 +11,5 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const vendingMachine = new VendingMachine(products);
 
-  const uiManager = new UIManager(vendingMachine);
-  uiManager.initializeUI();
+  new VendingMachineUI(vendingMachine);
 });
