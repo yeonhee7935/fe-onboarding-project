@@ -7,14 +7,14 @@ export class VendingMachine {
   // 금액 투입
   addBalance(amount) {
     if (amount <= 0 || isNaN(amount)) {
-      throw new Error("금액은 양수만 가능합니다.");
+      throw new Error("금액은 반드시 0원보다 커야 합니다.");
     }
     this.balance += amount;
   }
 
   // 금액 반환
   resetBalance() {
-    if (this.balance < 0) {
+    if (this.balance <= 0) {
       throw new Error("반환할 금액이 없습니다.");
     }
 
