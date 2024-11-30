@@ -2,8 +2,13 @@ import { VendingMachine } from "./models/VendingMachine";
 import { VendingMachineUI } from "./ui/UIManager";
 
 async function loadProducts() {
-  const response = await fetch("/products.json");
-  return await response.json();
+  try {
+    const response = await fetch("/products.json");
+    return response.json();
+  } catch (e) {
+    console.error("error while loading data");
+    return [];
+  }
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
