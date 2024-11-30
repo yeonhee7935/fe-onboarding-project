@@ -3,6 +3,9 @@ export class Display {
     this.display = displayElement;
   }
   update(balance) {
-    this.display.textContent = balance.toLocaleString();
+    this.display.textContent = this.#formatString(balance);
+  }
+  #formatString(str) {
+    return str.toLocaleString("ko-KR");
   }
 }
