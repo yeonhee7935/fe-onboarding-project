@@ -25,10 +25,10 @@ export class VendingMachineUI {
   // 제품 구매 버튼 초기화 및 이벤트 등록
   #initProductButtons() {
     const buttonsContainer = document.getElementById("buttons");
-    const products = this.vendingMachine.getProducts();
+    const products = this.vendingMachine.getAllProducts();
     const template = document.getElementById("product-button-template");
 
-    products.forEach((product) => {
+    Object.entries(products).forEach(([key, product]) => {
       const button = this.#createProductButton(template, product);
       buttonsContainer.appendChild(button);
     });
@@ -36,8 +36,8 @@ export class VendingMachineUI {
     buttonsContainer.addEventListener("click", (event) => {
       const button = event.target.closest(".product");
       if (button) {
-        const productName = button.dataset.name;
-        const product = products.find((p) => p.name === productName);
+        const productId = button.dataset.id;
+        const product = this.vendingMachine.getProductById(productId);
         if (product) {
           this.#handlePurchase(product);
         }
@@ -50,7 +50,7 @@ export class VendingMachineUI {
     const buttonElement = template.content.cloneNode(true);
     const button = buttonElement.querySelector(".product");
 
-    button.dataset.name = product.name;
+    button.dataset.id = product.id;
     button.querySelector(".product-name").textContent = product.name;
     button.querySelector(
       ".product-price",

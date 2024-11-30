@@ -10,10 +10,15 @@ async function loadProducts() {
     return [];
   }
 }
+const listToDictionary = (list) => {
+  return list.reduce((dict, item) => {
+    dict[item.id] = item;
+    return dict;
+  }, {});
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const products = await loadProducts();
-
+  const products = listToDictionary(await loadProducts());
   const vendingMachine = new VendingMachine(products);
 
   new VendingMachineUI(vendingMachine);

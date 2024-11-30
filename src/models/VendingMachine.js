@@ -33,7 +33,10 @@ export class VendingMachine {
     return this.balance;
   }
 
-  getProducts() {
+  getAllProducts() {
     return this.products;
+  }
+  getProductById(id) {
+    return this.products[id];
   }
 }
