@@ -1,5 +1,5 @@
 import { VendingMachine } from "./models/VendingMachine";
-import { VendingMachineUI } from "./ui/UIManager";
+import { VendingMachineUI } from "./ui/VendingMachineUI";
 
 async function loadProducts() {
   try {
