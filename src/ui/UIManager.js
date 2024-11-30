@@ -4,8 +4,8 @@ import { LogPanel } from "./LogPanel";
 export class VendingMachineUI {
   constructor(vendingMachine) {
     this.vendingMachine = vendingMachine;
-    this.display = new Display();
-    this.logPanel = new LogPanel();
+    this.display = new Display(document.getElementById("display"));
+    this.logPanel = new LogPanel(document.getElementById("log"));
     this.currentTimeoutId = null; // 현재 활성화된 타이머 ID를 저장
     this.#init();
   }

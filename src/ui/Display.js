@@ -1,6 +1,6 @@
 export class Display {
-  constructor() {
-    this.display = document.getElementById("display");
+  constructor(displayElement) {
+    this.display = displayElement;
   }
   update(balance) {
     this.display.textContent = balance.toLocaleString();
