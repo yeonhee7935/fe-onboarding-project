@@ -112,9 +112,7 @@ export class VendingMachineUI {
       this.display.update(this.vendingMachine.getBalance());
       this.logPanel.addLog(e.message);
 
-      if (errorCallback) {
-        errorCallback();
-      }
+      errorCallback?.();
     }
   }
 }
