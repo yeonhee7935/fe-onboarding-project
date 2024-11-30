@@ -10,7 +10,14 @@
     <div class="vending-machine">
       <div class="left-section">
         <div id="display" class="display">0</div>
-        <div id="buttons" class="buttons"></div>
+        <div id="buttons" class="buttons">
+          <template id="product-button-template">
+            <button class="product">
+              <strong class="product-name"></strong><br />
+              <small class="product-price"></small>
+            </button>
+          </template>
+        </div>
       </div>
       <div class="right-section">
         <div class="input-section">

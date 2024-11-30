@@ -26,9 +26,10 @@ export class VendingMachineUI {
   #initProductButtons() {
     const buttonsContainer = document.getElementById("buttons");
     const products = this.vendingMachine.getProducts();
+    const template = document.getElementById("product-button-template");
 
     products.forEach((product) => {
-      const button = this.#createProductButton(product);
+      const button = this.#createProductButton(template, product);
       buttonsContainer.appendChild(button);
     });
 
@@ -45,13 +46,15 @@ export class VendingMachineUI {
   }
 
   // 제품 버튼 생성
-  #createProductButton(product) {
-    const button = document.createElement("button");
-    button.className = "product";
+  #createProductButton(template, product) {
+    const buttonElement = template.content.cloneNode(true);
+    const button = buttonElement.querySelector(".product");
+
     button.dataset.name = product.name;
-    button.innerHTML = `<strong>${
-      product.name
-    }</strong><br /><small>${product.price.toLocaleString()}원</small>`;
+    button.querySelector(".product-name").textContent = product.name;
+    button.querySelector(
+      ".product-price",
+    ).textContent = `${product.price.toLocaleString()}원`;
     return button;
   }
 
