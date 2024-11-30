@@ -6,7 +6,6 @@ export class VendingMachineUI {
     this.vendingMachine = vendingMachine;
     this.display = new Display(document.getElementById("display"));
     this.logPanel = new LogPanel(document.getElementById("log"));
-    this.currentTimeoutId = null; // 현재 활성화된 타이머 ID를 저장
     this.#init();
   }
 
@@ -28,17 +27,33 @@ export class VendingMachineUI {
     const products = this.vendingMachine.getAllProducts();
     const template = document.getElementById("product-button-template");
 
+    // 버튼 생성
+    const fragment = document.createDocumentFragment();
     Object.entries(products).forEach(([key, product]) => {
       const button = this.#createProductButton(template, product);
-      buttonsContainer.appendChild(button);
+      fragment.appendChild(button);
     });
+    buttonsContainer.appendChild(fragment);
 
-    buttonsContainer.addEventListener("click", (event) => {
+    // 이벤트핸들러 등록
+    buttonsContainer.addEventListener("mousedown", (event) => {
       const button = event.target.closest(".product");
       if (button) {
         const productId = button.dataset.id;
         const product = this.vendingMachine.getProductById(productId);
-        if (product) {
+        if (product.price > this.vendingMachine.getBalance()) {
+          this.display.update(product.price);
+        }
+      }
+    });
+    buttonsContainer.addEventListener("mouseup", (event) => {
+      const button = event.target.closest(".product");
+      if (button) {
+        const productId = button.dataset.id;
+        const product = this.vendingMachine.getProductById(productId);
+        if (product.price > this.vendingMachine.getBalance()) {
+          this.display.update(this.vendingMachine.getBalance());
+        } else {
           this.#handlePurchase(product);
         }
       }
@@ -83,30 +98,14 @@ export class VendingMachineUI {
 
   // 제품 구매
   #handlePurchase(product) {
-    const balance = this.vendingMachine.getBalance();
-
     this.#handleTransaction(
       () => this.vendingMachine.purchaseProduct(product),
       `${product.name}을 구매했습니다.`,
-      () => {
-        // 이전 타이머가 있으면 취소
-        if (this.currentTimeoutId) {
-          clearTimeout(this.currentTimeoutId);
-          this.currentTimeoutId = null;
-        }
-
-        // 구매 실패 시, 가격을 표시하고 1.5초 뒤 잔액을 다시 표시
-        this.display.update(product.price);
-        this.currentTimeoutId = setTimeout(() => {
-          this.display.update(this.vendingMachine.getBalance());
-          this.currentTimeoutId = null; // 타이머 완료 후 초기화
-        }, 1500);
-      },
     );
   }
 
   // 거래 처리 및 로깅
-  #handleTransaction(transaction, successLogMessage, errorCallback = null) {
+  #handleTransaction(transaction, successLogMessage) {
     try {
       transaction();
       this.display.update(this.vendingMachine.getBalance());
@@ -114,8 +113,6 @@ export class VendingMachineUI {
     } catch (e) {
       this.display.update(this.vendingMachine.getBalance());
       this.logPanel.addLog(e.message);
-
-      errorCallback?.();
     }
   }
 }
