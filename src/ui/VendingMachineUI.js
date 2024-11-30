@@ -43,6 +43,8 @@ export class VendingMachineUI {
         const product = this.vendingMachine.getProductById(productId);
         if (product.price > this.vendingMachine.getBalance()) {
           this.display.update(product.price);
+        } else {
+          this.#handlePurchase(product);
         }
       }
     });
@@ -53,8 +55,6 @@ export class VendingMachineUI {
         const product = this.vendingMachine.getProductById(productId);
         if (product.price > this.vendingMachine.getBalance()) {
           this.display.update(this.vendingMachine.getBalance());
-        } else {
-          this.#handlePurchase(product);
         }
       }
     });
