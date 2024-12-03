@@ -10,15 +10,17 @@ export class VendingMachineUI {
   }
 
   #init() {
-    this.#initButton("insert-money", this.#handleInsertMoney);
-    this.#initButton("return-money", this.#handleReturnMoney);
     this.#initProductButtons();
+    this.#bindEventListener("insert-money", this.#onInsertMoney, "click");
+    this.#bindEventListener("return-money", this.#onReturnMoney, "click");
+    this.#bindEventListener("buttons", this.#onSelectProduct, "mousedown");
+    this.#bindEventListener("buttons", this.#onResetBalance, "mouseup");
   }
 
   // 버튼 이벤트 등록
-  #initButton(buttonId, handler) {
+  #bindEventListener(buttonId, handler, event) {
     const button = document.getElementById(buttonId);
-    if (button) button.addEventListener("click", handler.bind(this));
+    if (button) button.addEventListener(event, handler.bind(this));
   }
 
   // 제품 구매 버튼 초기화 및 이벤트 등록
@@ -34,30 +36,6 @@ export class VendingMachineUI {
       fragment.appendChild(button);
     });
     buttonsContainer.appendChild(fragment);
-
-    // 이벤트핸들러 등록
-    buttonsContainer.addEventListener("mousedown", (event) => {
-      const button = event.target.closest(".product");
-      if (button) {
-        const productId = button.dataset.id;
-        const product = this.vendingMachine.getProductById(productId);
-        if (product.price > this.vendingMachine.getBalance()) {
-          this.display.update(product.price);
-        } else {
-          this.#handlePurchase(product);
-        }
-      }
-    });
-    buttonsContainer.addEventListener("mouseup", (event) => {
-      const button = event.target.closest(".product");
-      if (button) {
-        const productId = button.dataset.id;
-        const product = this.vendingMachine.getProductById(productId);
-        if (product.price > this.vendingMachine.getBalance()) {
-          this.display.update(this.vendingMachine.getBalance());
-        }
-      }
-    });
   }
 
   // 제품 버튼 생성
@@ -72,9 +50,34 @@ export class VendingMachineUI {
     ).textContent = `${product.price.toLocaleString()}원`;
     return button;
   }
+  // 제품 구매 처리
+  #onSelectProduct(event) {
+    const button = event.target.closest(".product");
+    if (!button) return;
+
+    const productId = button.dataset.id;
+    const product = this.vendingMachine.getProductById(productId);
+
+    if (product.price > this.vendingMachine.getBalance()) {
+      this.display.update(product.price);
+    } else {
+      this.#handleTransaction(
+        () => this.vendingMachine.purchaseProduct(product),
+        `${product.name}을 구매했습니다.`,
+      );
+    }
+  }
+
+  // 디스플레이 잔액 초기화
+  #onResetBalance(event) {
+    const button = event.target.closest(".product");
+    if (!button) return;
+
+    this.display.update(this.vendingMachine.getBalance());
+  }
 
   // 금액 투입
-  #handleInsertMoney() {
+  #onInsertMoney() {
     const moneyInput = document.getElementById("money-input");
     const money = parseInt(moneyInput.value, 10);
 
@@ -87,20 +90,12 @@ export class VendingMachineUI {
   }
 
   // 금액 반환
-  #handleReturnMoney() {
+  #onReturnMoney() {
     const balance = this.vendingMachine.getBalance();
 
     this.#handleTransaction(
       () => this.vendingMachine.resetBalance(),
       `${balance}원을 반환했습니다.`,
-    );
-  }
-
-  // 제품 구매
-  #handlePurchase(product) {
-    this.#handleTransaction(
-      () => this.vendingMachine.purchaseProduct(product),
-      `${product.name}을 구매했습니다.`,
     );
   }
 
