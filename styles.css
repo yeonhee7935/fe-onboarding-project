@@ -31,7 +31,7 @@ body {
   }
 }
 
-/* 왼쪽 섹션: display + buttons */
+/* 왼쪽 섹션: display + products */
 .left-section {
   padding: 10px;
 }
@@ -48,7 +48,7 @@ body {
 }
 
 /* 상품 버튼 그리드 */
-.buttons {
+.products {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;

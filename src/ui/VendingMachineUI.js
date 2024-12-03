@@ -13,8 +13,8 @@ export class VendingMachineUI {
     this.#initProductButtons();
     this.#bindEventListener("insert-money", this.#onInsertMoney, "click");
     this.#bindEventListener("return-money", this.#onReturnMoney, "click");
-    this.#bindEventListener("buttons", this.#onSelectProduct, "mousedown");
-    this.#bindEventListener("buttons", this.#onResetBalance, "mouseup");
+    this.#bindEventListener("products", this.#onSelectProduct, "mousedown");
+    this.#bindEventListener("products", this.#onResetBalance, "mouseup");
   }
 
   // 버튼 이벤트 등록
@@ -25,7 +25,7 @@ export class VendingMachineUI {
 
   // 제품 구매 버튼 초기화 및 이벤트 등록
   #initProductButtons() {
-    const buttonsContainer = document.getElementById("buttons");
+    const buttonsContainer = document.getElementById("products");
     const products = this.vendingMachine.getAllProducts();
     const template = document.getElementById("product-button-template");
 
