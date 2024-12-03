@@ -1,3 +1,9 @@
+import {
+  InsufficientAmountError,
+  InvalidAmountError,
+  NoBalanceToReturnError,
+} from "../errors/VendingMachine";
+
 export class VendingMachine {
   constructor(products) {
     this.balance = 0; // 금액
@@ -7,7 +13,7 @@ export class VendingMachine {
   // 금액 투입
   addBalance(amount) {
     if (amount <= 0 || isNaN(amount)) {
-      throw new Error("금액은 반드시 0원보다 커야 합니다.");
+      throw new InvalidAmountError();
     }
     this.balance += amount;
   }
@@ -15,7 +21,7 @@ export class VendingMachine {
   // 금액 반환
   resetBalance() {
     if (this.balance <= 0) {
-      throw new Error("반환할 금액이 없습니다.");
+      throw new NoBalanceToReturnError();
     }
 
     this.balance = 0;
@@ -23,7 +29,7 @@ export class VendingMachine {
   // 제품 구매
   purchaseProduct(product) {
     if (this.balance < product.price) {
-      throw new Error("금액이 부족합니다.");
+      throw new InsufficientAmountError();
     }
     this.balance -= product.price;
   }
