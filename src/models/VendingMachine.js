@@ -28,7 +28,6 @@ export class VendingMachine {
     this.balance -= product.price;
   }
 
-  // 금액과 로그 반환
   getBalance() {
     return this.balance;
   }
