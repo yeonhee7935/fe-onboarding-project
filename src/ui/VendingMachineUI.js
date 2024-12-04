@@ -1,5 +1,6 @@
 import { Display } from "./Display";
 import { LogPanel } from "./LogPanel";
+import { SuccessMessage } from "./SuccessMessage";
 
 export class VendingMachineUI {
   constructor(vendingMachine) {
@@ -52,6 +53,7 @@ export class VendingMachineUI {
   }
   // 제품 구매 처리
   #onSelectProduct(event) {
+    this.#handleTransaction(() => {});
     const button = event.target.closest(".product");
     if (!button) return;
 
@@ -63,7 +65,7 @@ export class VendingMachineUI {
     } else {
       this.#handleTransaction(
         () => this.vendingMachine.purchaseProduct(product),
-        `${product.name}을 구매했습니다.`,
+        SuccessMessage.purchase(product.name),
       );
     }
   }
@@ -83,7 +85,7 @@ export class VendingMachineUI {
 
     this.#handleTransaction(
       () => this.vendingMachine.addBalance(money),
-      `${money}원을 투입했습니다.`,
+      SuccessMessage.insertMoney(money),
     );
 
     moneyInput.value = 0;
@@ -95,7 +97,7 @@ export class VendingMachineUI {
 
     this.#handleTransaction(
       () => this.vendingMachine.resetBalance(),
-      `${balance}원을 반환했습니다.`,
+      SuccessMessage.returnMoney(balance),
     );
   }
 
@@ -104,7 +106,9 @@ export class VendingMachineUI {
     try {
       transaction();
       this.display.update(this.vendingMachine.getBalance());
-      this.logPanel.addLog(successLogMessage);
+      if (successLogMessage) {
+        this.logPanel.addLog(successLogMessage);
+      }
     } catch (e) {
       this.display.update(this.vendingMachine.getBalance());
       this.logPanel.addLog(e.message);
