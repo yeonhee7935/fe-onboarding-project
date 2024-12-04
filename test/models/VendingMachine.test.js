@@ -27,11 +27,15 @@ describe("VendingMachine", () => {
       expect(vendingMachine.getBalance()).toBe(money);
     });
 
-    it("잘못된 금액(0 또는 음수)을 투입하면, 오류가 발생한다.", () => {
+    it("잘못된 금액(0, 음수, 빈 값)을 투입하면, 오류가 발생한다.", () => {
       expect(() => vendingMachine.addBalance(0)).toThrowError(
         InvalidAmountError,
       );
       expect(() => vendingMachine.addBalance(-500)).toThrowError(
+        InvalidAmountError,
+      );
+
+      expect(() => vendingMachine.addBalance()).toThrowError(
         InvalidAmountError,
       );
     });
