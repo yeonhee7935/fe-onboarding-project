@@ -1,7 +1,7 @@
 import { VendingMachine } from "./models/VendingMachine";
 import { VendingMachineUI } from "./ui/VendingMachineUI";
 
-async function loadProducts() {
+export async function loadProducts() {
   try {
     const response = await fetch("/products.json");
     return response.json();
@@ -10,8 +10,11 @@ async function loadProducts() {
     return [];
   }
 }
-const listToDictionary = (list) => {
-  return list.reduce((dict, item) => {
+export const listToDictionary = (list) => {
+  return list.reduce((dict, item, index) => {
+    if (!item.id) {
+      throw new Error(`Item at index ${index} is missing an 'id' property.`);
+    }
     dict[item.id] = item;
     return dict;
   }, {});
