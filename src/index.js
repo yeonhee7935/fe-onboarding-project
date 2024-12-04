@@ -12,7 +12,7 @@ export async function loadProducts() {
 }
 export const listToDictionary = (list) => {
   return list.reduce((dict, item, index) => {
-    if (!item.id) {
+    if (!Object.keys(item).includes("id")) {
       throw new Error(`Item at index ${index} is missing an 'id' property.`);
     }
     dict[item.id] = item;
