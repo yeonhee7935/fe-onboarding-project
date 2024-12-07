@@ -28,6 +28,7 @@ describe("VendingMachineUI", () => {
     global.document = dom.window.document;
     global.window = dom.window;
   });
+
   describe("제품 버튼 생성", () => {
     it("vendingMachineUI 생성 전, 제품 버튼이 0개이어야 한다.", () => {
       const buttons = document.querySelectorAll(".product");
@@ -65,6 +66,11 @@ describe("VendingMachineUI", () => {
       logPanel = document.getElementById("log");
       display = document.getElementById("display");
     });
+
+    function insertMoney(money) {
+      input.value = money;
+      insertButton.click();
+    }
     describe("click: insert-moeney button", () => {
       it("유효한 금액을 투입하면, 투입한 금액만큼 더하여 잔액이 표시된다.", () => {
         // 초기 상태: 잔액 0원
@@ -72,15 +78,13 @@ describe("VendingMachineUI", () => {
 
         // 유효한 금액을 투입하면
         let money = 5000;
-        input.value = money;
-        button.click();
+        insertMoney(money);
 
         // 투입한 금액만큼 잔액이 표시된다.
         expect(display.textContent).toBe(formatString(money));
 
         //
-        input.value = money;
-        button.click();
+        insertMoney(money);
 
         expect(display.textContent).toBe(formatString(money * 2));
       });
@@ -91,8 +95,7 @@ describe("VendingMachineUI", () => {
 
         // 유효한 금액을 투입하면
         const money = 5000;
-        input.value = money;
-        button.click();
+        insertMoney(money);
 
         // 성공 메시지가 로그에 표시된다.
         expect(logPanel.textContent).toContain(
@@ -105,8 +108,7 @@ describe("VendingMachineUI", () => {
         expect(logPanel.textContent).toBeFalsy();
 
         // 잘못된 금액(0원)을 투입하면
-        input.value = 0;
-        insertButton.click();
+        insertMoney(0);
 
         // 오류 메시지가 로그에 추가된다.
         expect(logPanel.textContent).toContain(
@@ -119,8 +121,7 @@ describe("VendingMachineUI", () => {
         expect(logPanel.textContent).toBeFalsy();
 
         // 잘못된 금액(음수)를 투입하면
-        input.value = -10;
-        insertButton.click();
+        insertMoney(-10);
 
         // 오류 메시지가 로그에 추가된다.
         logPanel = document.getElementById("log");
@@ -134,8 +135,7 @@ describe("VendingMachineUI", () => {
         expect(logPanel.textContent).toBeFalsy();
 
         // 빈값을 투입하면
-        input.value = "";
-        insertButton.click();
+        insertMoney("");
 
         // 오류 메시지가 로그에 추가된다.
         expect(logPanel.textContent).toContain(
@@ -163,11 +163,10 @@ describe("VendingMachineUI", () => {
       it("잔액이 충분한 경우, 제품 버튼을 누르면 , 잔액에서 선택한 제품의 가격을 뺀 금액이 디스플레이에 표시된다.", () => {
         // 초기 잔액 설정 (제품 가격보다 높게 설정)
         const sufficientBalance = 5000;
-        input.value = sufficientBalance;
-        insertButton.click();
+        insertMoney(sufficientBalance);
         expect(display.textContent).toBe(formatString(sufficientBalance));
 
-        // 유효한 제품 버튼 클릭
+        // 제품 버튼을 누르면,
         const productButton = document.querySelector(".product");
         productButton.dispatchEvent(
           new MouseEvent("mousedown", { bubbles: true }),
@@ -186,19 +185,16 @@ describe("VendingMachineUI", () => {
       it("잔액이 부족한 경우, 제품 버튼을 클릭한 뒤 마우스를 떼면, 잔액이 디스플레이에 다시 표시된다.", () => {
         // 잔액이 부족한 경우,
         const lowBalance = 100;
-        input.value = lowBalance;
-        insertButton.click();
+        insertMoney(lowBalance);
         expect(display.textContent).toBe(formatString(lowBalance));
 
-        // 제품 버튼을 클릭한 뒤 마우스를 떼면
+        // 제품 버튼을 클릭한 뒤 마우스를 떼면,
         const productButton = document.querySelector(".product");
         productButton.dispatchEvent(
           new MouseEvent("mouseup", { bubbles: true }),
         );
 
         // 디스플레이에 초기 잔액이 표시된다.
-        const productId = productButton.dataset.id;
-        const product = vendingMachine.getProductById(productId);
         expect(display.textContent).toBe(formatString(lowBalance));
       });
     });
@@ -209,8 +205,7 @@ describe("VendingMachineUI", () => {
         expect(logPanel.textContent).toBeFalsy();
 
         const money = 5000;
-        input.value = money;
-        insertButton.click();
+        insertMoney(money);
 
         // 잔액이 있는 경우
         expect(display.textContent).toBe(formatString(money));
@@ -228,11 +223,9 @@ describe("VendingMachineUI", () => {
         // 초기 상태: 잔액 0원
         expect(display.textContent).toBe(formatString(0));
 
-        const money = 5000;
-        input.value = money;
-        insertButton.click();
-
         // 잔액이 있는 경우
+        const money = 5000;
+        insertMoney(money);
         expect(display.textContent).toBe(formatString(money));
 
         // 반환 버튼을 누르면
