@@ -35,12 +35,15 @@ describe("VendingMachineUI", () => {
     });
 
     it("VendingMachineUI 생성 후, 제품 버튼이 제품의 개수만큼 생성된다.", () => {
+      // VendingMachineUI 생성 후,
       vendingMachine = new VendingMachine(products);
       ui = new VendingMachineUI(vendingMachine);
 
+      // 제품 버튼이 제품의 개수만큼 생성된다.
       const buttons = document.querySelectorAll(".product");
       expect(buttons.length).toBe(2);
 
+      // 각 제품 버튼에는 제품의 이름이 표시된다.
       buttons.forEach((button, index) => {
         expect(button.querySelector(".product-name").textContent).toBe(
           products[index].name,
@@ -63,7 +66,7 @@ describe("VendingMachineUI", () => {
       display = document.getElementById("display");
     });
 
-    describe("insert moeney", () => {
+    describe("click: insert-moeney button", () => {
       it("유효한 금액을 투입하면, 투입한 금액만큼 더하여 잔액이 표시된다.", () => {
         // 초기 상태: 잔액 0원
         expect(display.textContent).toBe(formatString(0));
@@ -142,11 +145,11 @@ describe("VendingMachineUI", () => {
       });
     });
 
-    describe("select product", () => {
+    describe("click: product button", () => {
       it("", () => {});
     });
 
-    describe("return moeney", () => {
+    describe("click: return-moeney button", () => {
       it("잔액이 있는 경우, 반환 버튼을 누르면, 성공 메시지가 로그에 표시된다.", () => {
         // 초기 상태: 잔액 0원 & 로그 없음
         expect(logPanel.textContent).toBeFalsy();
