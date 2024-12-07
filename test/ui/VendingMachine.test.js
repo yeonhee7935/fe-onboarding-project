@@ -65,6 +65,84 @@ describe("VendingMachineUI", () => {
       logPanel = document.getElementById("log");
       display = document.getElementById("display");
     });
+    describe("click: insert-moeney button", () => {
+      it("유효한 금액을 투입하면, 투입한 금액만큼 더하여 잔액이 표시된다.", () => {
+        // 초기 상태: 잔액 0원
+        expect(display.textContent).toBe(formatString(0));
+
+        // 유효한 금액을 투입하면
+        let money = 5000;
+        input.value = money;
+        button.click();
+
+        // 투입한 금액만큼 잔액이 표시된다.
+        expect(display.textContent).toBe(formatString(money));
+
+        //
+        input.value = money;
+        button.click();
+
+        expect(display.textContent).toBe(formatString(money * 2));
+      });
+
+      it("유효한 금액을 투입하면, 성공 메시지가 로그에 표시된다.", () => {
+        // 초기 상태: 로그 없음
+        expect(logPanel.textContent).toBeFalsy();
+
+        // 유효한 금액을 투입하면
+        const money = 5000;
+        input.value = money;
+        button.click();
+
+        // 성공 메시지가 로그에 표시된다.
+        expect(logPanel.textContent).toContain(
+          SuccessMessage.insertMoney(money),
+        );
+      });
+
+      it("잘못된 금액(0원)을 투입하면, 오류 메시지가 로그에 추가된다.", () => {
+        // 초기상태: 로그 없음
+        expect(logPanel.textContent).toBeFalsy();
+
+        // 잘못된 금액(0원)을 투입하면
+        input.value = 0;
+        insertButton.click();
+
+        // 오류 메시지가 로그에 추가된다.
+        expect(logPanel.textContent).toContain(
+          new InvalidAmountError().message,
+        );
+      });
+
+      it("잘못된 금액(음수)을 투입하면, 오류 메시지가 로그에 추가된다.", () => {
+        // 초기상태: 로그 없음
+        expect(logPanel.textContent).toBeFalsy();
+
+        // 잘못된 금액(음수)를 투입하면
+        input.value = -10;
+        insertButton.click();
+
+        // 오류 메시지가 로그에 추가된다.
+        logPanel = document.getElementById("log");
+        expect(logPanel.textContent).toContain(
+          new InvalidAmountError().message,
+        );
+      });
+
+      it("잘못된 금액(빈 값)을 투입하면, 오류 메시지가 로그에 추가된다.", () => {
+        // 초기상태: 로그 없음
+        expect(logPanel.textContent).toBeFalsy();
+
+        // 빈값을 투입하면
+        input.value = "";
+        insertButton.click();
+
+        // 오류 메시지가 로그에 추가된다.
+        expect(logPanel.textContent).toContain(
+          new InvalidAmountError().message,
+        );
+      });
+    });
 
     describe("mousedown: product button", () => {
       it("잔액이 부족한 경우, 제품 버튼을 누르면 , 제품 가격이 디스플레이에 표시된다.", () => {
